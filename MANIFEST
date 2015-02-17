@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/Eixo-Queue.t
+lib/Eixo/Queue.pm
