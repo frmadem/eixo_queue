@@ -38,12 +38,16 @@ sub init{
 
 }
 
-sub addJob{
+sub add{
 
 	$_[0]->mongo_driver->addJob($_[1]);
 }
 
+sub status{
 
+	$_[0]->mongo_driver->getJob(@_[1..$#_]);
+
+}
 
 
 1;

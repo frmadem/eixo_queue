@@ -13,15 +13,15 @@ sub init{
 
 }
 
-sub add{
+sub add :Abstract{
 
 }
 
-sub status{
+sub status :Abstract{
 
 }
 
-sub remove{
+sub remove :Abstract{
 
 }
 
