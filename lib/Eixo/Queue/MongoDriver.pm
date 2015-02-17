@@ -14,15 +14,18 @@ has(
 
 	port=>27017,
 
-	__conection=>undef,
+	__connection=>undef,
 );
 
 sub addJob{
 	my ($self, $job) = @_;
 
-	#
-	# Se asume que el job es un Eixo::RestServer::Job
-	#
+	unless($job->isa('Eixo::Queue::Job')){
+	
+		die(ref($self) . '::addJob: an Eixo::Queue::Job was expected');
+
+	}
+
 	$self->getCollection->insert({
 
 		_id=>$job->id,
@@ -35,10 +38,10 @@ sub addJob{
 
 }
 
-sub actualizarJob{
+sub updateJob{
 	my ($self, $job) = @_;
 
-	$self->getColeccion->find_and_modify({
+	$self->getCollection->find_and_modify({
 
 		query=>{ _id=>$job->id },
 
@@ -46,7 +49,7 @@ sub actualizarJob{
 			
 			status=>$job->status,
 
-			contenido=>$job->serialize
+			content=>$job->serialize
 		}
 			
 
@@ -56,9 +59,9 @@ sub actualizarJob{
 sub getJob{
 	my ($self, $id) = @_;
 
-	$self->__formatear(
+	$self->__format(
 
-		$self->getColeccion->find({
+		$self->getCollection->find({
 		
 			_id=>$id
 
@@ -67,12 +70,12 @@ sub getJob{
 	);
 }
 
-sub getJobPendiente{
+sub getPendingJob{
 	my ($self, $job) = @_;
 
-	$self->__formatear(
+	$self->__format(
 
-		$self->getColeccion->find_one({
+		$self->getCollection->find_one({
 
 			status=>'WAITING'
 
@@ -82,44 +85,44 @@ sub getJobPendiente{
 
 }
 
-	sub __formatear{
+	sub __format{
 		my ($self, @jobs) = @_;
 
 		@jobs = map {
 
-			Eixo::Queue::Job->unserialize($_->{contenido});
+			Eixo::Queue::Job->unserialize($_->{content});
 
 		} grep { ref($_) } @jobs;
 
 		wantarray ? @jobs : (@jobs < 2) ? $jobs[0] : \@jobs;
 	}
 
-sub getColeccion{
-	my ($self, $coleccion) = @_;
+sub getCollection{
+	my ($self, $collection) = @_;
 
-	$coleccion = $coleccion || $self->coleccion;
+	$collection = $collection || $self->collection;
 
-	$self->getBd->get_collection($coleccion);
+	$self->getDb->get_collection($collection);
 
 }
 
-sub getBd{
-	my ($self, $bd) = @_;
+sub getDb{
+	my ($self, $db) = @_;
 
-	$bd = $bd || $self->bd;
+	$db = $db || $self->db;
 
-	$self->getConexion->get_database($bd);
+	$self->getConnection->get_database($db);
 	
 
 }
 
-sub getConexion{
+sub getConnection{
 
-	return $_[0]->__conexion if($_[0]->__conexion);
+	return $_[0]->__connection if($_[0]->__connection);
 
 	my $c;
 
-	$_[0]->__conexion(
+	$_[0]->__connection(
 
 
 		$c = MongoDB::MongoClient->new(
@@ -132,7 +135,7 @@ sub getConexion{
 
 	);
 
-	$_[0]->__conexion;
+	$_[0]->__connection;
 }
 
 #__PACKAGE__->new->getConexion;

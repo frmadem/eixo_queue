@@ -12,6 +12,12 @@ BEGIN{
 	$UUID_INSTANCE = Data::UUID->new;
 }
 
+sub WAITING 	{ 'WAITING' }
+sub PROCESSING	{ 'PROCESSING' }
+sub FINISHED	{ 'FINISHED' }
+sub ERROR	{ 'ERROR' }
+
+
 sub ID{
 
 	$UUID_INSTANCE->create_str;
@@ -19,32 +25,31 @@ sub ID{
 
 has(
 
-	id		=>	undef,
+	id=>undef,
 
-	queue		=>	undef,
+	queue=>undef,
 
-	running		=>	0,
+	status=>WAITING,
 
-	done		=>	0,
+	created=>time,
 
-	created 	=>	time,
+	finished=>0,
 
-	start		=>	0,
+	args=>{},
 
-	finished 	=>	0,
-
-	args		=>	{},
-
-	results		=>	{},
-
-	class		=>	undef,
+	results=>{},
 
 );
 
-sub initialize{
+sub finished{
 
-	$_[0]->type(ref($_[0]));	
+	$_[0]->status(FINISHED);
 
+}
+
+sub processing{
+
+	$_[0]->status(PROCESSING);
 }
 
 sub serialize{
@@ -60,7 +65,7 @@ sub unserialize{
 		$package = ref($package);
 	}
 
-	bless(JSON->new->decode($data), $data->{class});
+	bless(JSON->new->decode($data), $package);
 }
 
 sub setArg{
