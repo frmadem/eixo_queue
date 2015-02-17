@@ -185,12 +185,18 @@ PERL_ARCHIVE_AFTER =
 
 TO_INST_PM = lib/Eixo/Queue.pm \
 	lib/Eixo/Queue/Job.pm \
+	lib/Eixo/Queue/Mongo.pm \
+	lib/Eixo/Queue/MongoDriver.pm \
 	lib/Eixo/Queue/Queues.pm
 
 PM_TO_BLIB = lib/Eixo/Queue.pm \
 	blib/lib/Eixo/Queue.pm \
 	lib/Eixo/Queue/Job.pm \
 	blib/lib/Eixo/Queue/Job.pm \
+	lib/Eixo/Queue/Mongo.pm \
+	blib/lib/Eixo/Queue/Mongo.pm \
+	lib/Eixo/Queue/MongoDriver.pm \
+	blib/lib/Eixo/Queue/MongoDriver.pm \
 	lib/Eixo/Queue/Queues.pm \
 	blib/lib/Eixo/Queue/Queues.pm
 
@@ -857,6 +863,8 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  lib/Eixo/Queue.pm blib/lib/Eixo/Queue.pm \
 	  lib/Eixo/Queue/Job.pm blib/lib/Eixo/Queue/Job.pm \
+	  lib/Eixo/Queue/Mongo.pm blib/lib/Eixo/Queue/Mongo.pm \
+	  lib/Eixo/Queue/MongoDriver.pm blib/lib/Eixo/Queue/MongoDriver.pm \
 	  lib/Eixo/Queue/Queues.pm blib/lib/Eixo/Queue/Queues.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
