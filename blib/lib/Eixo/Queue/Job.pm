@@ -31,7 +31,9 @@ has(
 
 	status=>WAITING,
 
-	tasked=>time,
+	created=>time,
+
+	finished=>0,
 
 	args=>{},
 
