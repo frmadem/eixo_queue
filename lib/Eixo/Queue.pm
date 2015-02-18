@@ -13,17 +13,15 @@ sub init{
 
 }
 
-sub add :Abstract{
+sub add :Abstract		{}
 
-}
+sub addAndWait :Abstract	{}
 
-sub status :Abstract{
+sub status :Abstract		{}
 
-}
+sub remove :Abstract		{}
 
-sub remove :Abstract{
-
-}
+sub wait :Abstract		{}
 
 1;
 
