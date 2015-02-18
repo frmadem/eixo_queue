@@ -54,6 +54,8 @@ sub createQueue{
 	}
 
 	$self->queues->{$queue->name} = $queue;
+
+	$queue->init;
 }
 
 
