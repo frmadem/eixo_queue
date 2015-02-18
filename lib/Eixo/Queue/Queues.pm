@@ -28,15 +28,21 @@ sub getJob{
 sub addJob{
 	my ($self, $job) = @_;
 
-	#
-	# Add resolve
-	#
-	$self->jobs_resolve->{$job->id} = $job->queue;
+	my $queue = $self->queues->{$job->queue};
+	
+	unless($queue->isInmediate){
+
+		#
+		# Add resolve unless inmediate queue
+		#
+		$self->jobs_resolve->{$job->id} = $job->queue;
+
+	}
 
 	#
-	# Add job to the queue
+	# Add job to the queue 
 	#
-	$self->queues->{$job->queue}->add($job);
+	$queue->add($job);
 }
 
 #

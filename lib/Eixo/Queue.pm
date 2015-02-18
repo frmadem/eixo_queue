@@ -23,6 +23,11 @@ sub remove :Abstract		{}
 
 sub wait :Abstract		{}
 
+sub isInmediate{
+
+	$_[0]->can('addAndWait')
+}
+
 1;
 
 

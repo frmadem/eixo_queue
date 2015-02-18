@@ -30,7 +30,7 @@ eval{
 
 	my $j;
 
-	$queue->addJob(
+	$queue->add(
 
 		$j = Eixo::Queue::Job->new(
 
