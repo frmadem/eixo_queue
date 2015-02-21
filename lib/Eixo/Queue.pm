@@ -25,7 +25,7 @@ sub wait :Abstract		{}
 
 sub isInmediate{
 
-	$_[0]->can('addAndWait')
+	$_[0]->isa('Eixo::QueueInmediate')
 }
 
 1;
