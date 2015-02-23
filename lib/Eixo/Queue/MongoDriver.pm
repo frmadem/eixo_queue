@@ -41,14 +41,12 @@ sub addJob{
 sub updateJob{
 	my ($self, $job) = @_;
 
-	$self->getCollection->find_and_modify({
+	$self->getCollection->update({
 
-		query=>{ _id=>$job->id },
+		{ _id=>$job->id },
 
-		update =>{
-			
+		{
 			status=>$job->status,
-
 			content=>$job->serialize
 		}
 			
@@ -75,27 +73,36 @@ sub getPendingJob{
 
 	$self->__format(
 
-		$self->getCollection->find_one({
+		$self->getCollection->find_and_modify({
 
-			status=>'WAITING'
-
+			query => {status=>'WAITING'},
+			sort => {creation_timestamp => 1},
+			update => {
+				'$set' => {
+					status => 'PROCESSING', 
+					start_timestamp => time
+				}
+			},
+			new => 1,
 		})
 
 	);
 
 }
 
-	sub __format{
-		my ($self, @jobs) = @_;
 
-		@jobs = map {
+sub __format{
+	my ($self, @jobs) = @_;
 
-			Eixo::Queue::Job->unserialize($_->{content});
+	@jobs = map {
 
-		} grep { ref($_) } @jobs;
+		Eixo::Queue::Job->unserialize($_->{content});
 
-		wantarray ? @jobs : (@jobs < 2) ? $jobs[0] : \@jobs;
-	}
+	} grep { ref($_) } @jobs;
+
+	wantarray ? @jobs : (@jobs < 2) ? $jobs[0] : \@jobs;
+}
+
 
 sub getCollection{
 	my ($self, $collection) = @_;
