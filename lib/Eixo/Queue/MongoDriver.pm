@@ -41,7 +41,7 @@ sub addJob{
 sub updateJob{
 	my ($self, $job) = @_;
 
-	$self->getCollection->update({
+	$self->getCollection->update(
 
 		{ _id=>$job->id },
 
@@ -51,7 +51,7 @@ sub updateJob{
 		}
 			
 
-	});
+	);
 }
 
 sub getJob{
