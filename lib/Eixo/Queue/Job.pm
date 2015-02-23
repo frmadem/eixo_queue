@@ -31,7 +31,11 @@ has(
 
 	status=>WAITING,
 
-	created=>time,
+	creation_timestamp=>time,
+
+	start_timestamp => undef,
+	
+	termination_timestamp => undef,
 
 	finished=>0,
 
@@ -40,6 +44,12 @@ has(
 	results=>{},
 
 );
+
+sub copy{
+	my ($self, $j) = @_;
+
+	$self->{$_} = $j->{$_} foreach(keys(%$j));
+}
 
 sub finished{
 
