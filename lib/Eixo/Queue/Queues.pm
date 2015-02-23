@@ -36,13 +36,16 @@ sub addJob{
 		# Add resolve unless inmediate queue
 		#
 		$self->jobs_resolve->{$job->id} = $job->queue;
-
 	}
 
 	#
 	# Add job to the queue 
 	#
 	$queue->add($job);
+
+	return $job->copy($queue->wait) if($queue->isInmediate);
+
+	return 1;
 }
 
 #
