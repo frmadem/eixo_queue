@@ -3,6 +3,9 @@ package Eixo::Queue;
 use strict;
 use Eixo::Base::Clase;
 
+
+our $VERSION = '0.1.0';
+
 has(
 
 	name => undef
