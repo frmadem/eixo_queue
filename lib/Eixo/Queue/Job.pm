@@ -37,8 +37,6 @@ has(
 	
 	termination_timestamp => undef,
 
-	finished=>0,
-
 	args=>{},
 
 	results=>{},
@@ -90,13 +88,14 @@ sub setResult{
 	$self->results->{$key} = $value;
 } 
 
-sub setError{
+#sub setError{
+#
+#	$_[0]->status(ERROR);
+#
+#	$_[0]->setResult('error', $_[1]);
+#
+#
+#}
 
-	$_[0]->status(ERROR);
-
-	$_[0]->setResult('error', $_[1]);
-
-
-}
 
 1;
