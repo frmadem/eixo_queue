@@ -2,6 +2,7 @@ package Eixo::Queue::Mongo;
 
 use strict;
 use Eixo::Queue;
+use Eixo::Queue::MongoDriver;
 use parent qw(Eixo::Queue);
 
 has(
