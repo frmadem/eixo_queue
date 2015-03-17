@@ -25,7 +25,7 @@ sub ID{
 
 has(
 
-	id=>undef,
+	id=> ID,
 
 	queue=>undef,
 

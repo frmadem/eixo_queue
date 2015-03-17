@@ -28,6 +28,7 @@ sub getJob{
 sub addJob{
 	my ($self, $job) = @_;
 
+
 	my $queue = $self->queues->{$job->queue};
 	
 	unless($queue->isInmediate){
@@ -44,6 +45,7 @@ sub addJob{
 	$queue->add($job);
 
 	return $job->copy($queue->wait) if($queue->isInmediate);
+
 
 	return 1;
 }
