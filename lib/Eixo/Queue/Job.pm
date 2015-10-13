@@ -3,7 +3,7 @@ package Eixo::Queue::Job;
 use strict;
 use Eixo::Base::Clase;
 
-use JSON -convert_blessed_universally;
+use JSON;
 use Data::UUID;
 
 my $UUID_INSTANCE;
@@ -43,22 +43,30 @@ has(
 
 );
 
+
+sub TO_JSON {
+    {
+        %{ $_[0] }
+    }
+}
+
 sub copy{
 	my ($self, $j) = @_;
 
 	$self->{$_} = $j->{$_} foreach(keys(%$j));
 }
 
+sub processing{
+    
+    $_[0]->start_timestamp(time) && $_[0]->status(PROCESSING)
+}
+
 sub finished{
 
-	$_[0]->status(FINISHED);
+    $_[0]->termination_timestamp(time) && $_[0]->status(FINISHED)
 
 }
 
-sub processing{
-
-	$_[0]->status(PROCESSING);
-}
 
 sub serialize{
 	my ($self) = @_;
