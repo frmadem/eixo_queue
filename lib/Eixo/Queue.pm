@@ -31,6 +31,11 @@ sub isInmediate{
 	$_[0]->isa('Eixo::QueueInmediate')
 }
 
+sub isDirect{
+
+	$_[0]->isa('Eixo::Queue::Direct');
+}
+
 1;
 
 
