@@ -29,12 +29,17 @@ sub addJob{
 	my ($self, $job) = @_;
 
 
+	open (D, '>>/tmp/debug') || die "$!";
+	print D "AQUI\n";
+
 	my $queue = $self->queues->{$job->queue};
-	
-	unless($queue->isInmediate){
+
+	print D $queue, "\n";	
+
+	unless($queue->isInmediate || $queue->isDirect){
 
 		#
-		# Add resolve unless inmediate queue
+		# Add resolve unless inmediate or direct queue 
 		#
 		$self->jobs_resolve->{$job->id} = $job->queue;
 	}
@@ -44,8 +49,11 @@ sub addJob{
 	#
 	$queue->add($job);
 
-	return $job->copy($queue->wait) if($queue->isInmediate);
+	close D;
 
+	return $job if($queue->isDirect);
+
+	return $job->copy($queue->wait) if($queue->isInmediate);
 
 	return 1;
 }
@@ -65,6 +73,10 @@ sub createQueue{
 	}
 
 	$self->queues->{$queue->name} = $queue;
+
+	open (D, '>>', '/tmp/debug') || die "$!";
+	print D "AQUI\n";
+	close D;
 
 	$queue->init;
 }
