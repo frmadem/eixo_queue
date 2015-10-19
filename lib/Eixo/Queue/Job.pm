@@ -45,7 +45,7 @@ has(
 
 
 sub TO_JSON {
-    {
+    return {
         %{ $_[0] }
     }
 }
