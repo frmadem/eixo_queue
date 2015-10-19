@@ -29,12 +29,7 @@ sub addJob{
 	my ($self, $job) = @_;
 
 
-	open (D, '>>/tmp/debug') || die "$!";
-	print D "AQUI\n";
-
 	my $queue = $self->queues->{$job->queue};
-
-	print D $queue, "\n";	
 
 	unless($queue->isInmediate || $queue->isDirect){
 
@@ -48,8 +43,6 @@ sub addJob{
 	# Add job to the queue 
 	#
 	$queue->add($job);
-
-	close D;
 
 	return $job if($queue->isDirect);
 
