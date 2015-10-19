@@ -1,7 +1,11 @@
 Changes
 cpanfile
+lib/Eixo/.Queue.pm.swp
 lib/Eixo/Queue.pm
 lib/Eixo/Queue.pod
+lib/Eixo/Queue/.Direct.pm.swp
+lib/Eixo/Queue/.SocketPair.pm.swp
+lib/Eixo/Queue/Direct.pm
 lib/Eixo/Queue/Job.pm
 lib/Eixo/Queue/Mongo.pm
 lib/Eixo/Queue/MongoDriver.pm
