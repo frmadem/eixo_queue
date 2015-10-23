@@ -23,9 +23,10 @@ sub ID{
 	$UUID_INSTANCE->create_str;
 }
 
+
 has(
 
-	id=> ID,
+	id=> undef,
 
 	queue=>undef,
 
@@ -37,11 +38,23 @@ has(
 	
 	termination_timestamp => undef,
 
-	args=>{},
+	args=>undef,
 
-	results=>{},
+	results=>undef,
 
 );
+
+
+sub initialize {
+    my ($self,@args) = @_;
+
+    $self->{id} = &ID;
+    $self->{args} = {};
+    $self->{results} = {};
+
+    $self->SUPER::initialize(@args);
+    
+}
 
 
 sub TO_JSON {
@@ -96,14 +109,6 @@ sub setResult{
 	$self->results->{$key} = $value;
 } 
 
-#sub setError{
-#
-#	$_[0]->status(ERROR);
-#
-#	$_[0]->setResult('error', $_[1]);
-#
-#
-#}
 
 
 1;
