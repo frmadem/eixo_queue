@@ -3,6 +3,7 @@ package Eixo::Queue::MongoDriver;
 use strict;
 use MongoDB;
 use Eixo::Base::Clase;
+use Eixo::Queue::Job;
 
 has(
 
