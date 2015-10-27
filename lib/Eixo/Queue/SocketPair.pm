@@ -1,7 +1,8 @@
 package Eixo::Queue::SocketPair;
 
 use strict;
-use parent qw(Eixo::QueueInmediate);
+use Eixo::Base::Clase qw(Eixo::QueueInmediate);
+
 
 use Socket;
 use IO::Handle;
