@@ -1,4 +1,4 @@
-requires 'Eixo::Base', '> 1.200';
+requires 'Eixo::Base', '> 1.400';
 requires 'JSON', '> 2.6';
 requires 'Data::UUID', '> 1';
 

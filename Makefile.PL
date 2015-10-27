@@ -6,7 +6,7 @@ WriteMakefile(
     NAME              => 'Eixo::Queue',
     VERSION_FROM      => 'lib/Eixo/Queue.pm', # finds $VERSION
     PREREQ_PM         => {
-        'Eixo::Base' => '1.200',
+        'Eixo::Base' => '1.400',
         'JSON' => '2.5',
         'Data::UUID' => '1',
         'MongoDB' => '0.708',
