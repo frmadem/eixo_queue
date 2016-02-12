@@ -4,7 +4,7 @@ use strict;
 use Eixo::Base::Clase;
 
 
-our $VERSION = '0.3.4';
+our $VERSION = '0.3.5';
 
 has(
 
