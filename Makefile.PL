@@ -28,6 +28,7 @@ WriteMakefile1(
     }, # e.g., Module::Name => 1.1
     ABSTRACT_FROM  => 'lib/Eixo/Queue.pod', # retrieve abstract from module
     AUTHOR         =>  ['Francisco Maseda <frmadem@gmail.com>', 'Javier Gomez <alambike@gmail.com>'],
+    LICENSE => 'apache',
 );
 
 sub WriteMakefile1 {  #Compatibility code for old versions of EU::MM. Written by Alexandr Ciornii, version 2. Added by eumm-upgrade.
