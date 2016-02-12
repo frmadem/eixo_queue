@@ -67,10 +67,6 @@ sub createQueue{
 
 	$self->queues->{$queue->name} = $queue;
 
-	open (D, '>>', '/tmp/debug') || die "$!";
-	print D "AQUI\n";
-	close D;
-
 	$queue->init;
 }
 
