@@ -69,6 +69,21 @@ sub getJob{
 	);
 }
 
+sub find{
+    my ($self, $query, $sort) = @_;
+
+    $self->__format(
+
+        $self->getCollection
+        
+            ->find($query)
+     
+            ->sort($sort)
+
+            ->all
+    );
+}
+
 sub getPendingJob{
 	my ($self, $job) = @_;
 
