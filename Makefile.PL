@@ -1,5 +1,8 @@
 use 5.012;
 use ExtUtils::MakeMaker;
+
+die('OS unsupported') if($^O eq 'MSWin32');
+
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile1(
