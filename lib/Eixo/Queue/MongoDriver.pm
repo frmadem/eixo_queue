@@ -75,13 +75,20 @@ sub find{
 }
 
 sub getPendingJob{
-	my ($self, $job) = @_;
+	my ($self, %args) = @_;
+
+    my $query = {
+
+        status=>"WAITING"
+    };  
+
+    $query->{queue} = $args{queue} if(defined $args{queue});
 
 	$self->__format(
 
 		$self->getCollection->find_and_modify({
 
-			query => {status=>'WAITING'},
+			query =>$query,
 			sort => {creation_timestamp => 1},
 			update => {
 				'$set' => {
