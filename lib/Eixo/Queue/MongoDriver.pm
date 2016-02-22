@@ -28,14 +28,9 @@ sub addJob{
 	}
 
 	$self->getCollection->insert({
-
-		_id=>$job->id,
-
-		status=>$job->status,
-
-		content=>$job->serialize
-
-	});
+        _id => $job->id,
+        %{$job}
+    });
 
 }
 
@@ -43,16 +38,11 @@ sub updateJob{
 	my ($self, $job) = @_;
 
 	$self->getCollection->update(
-
-		{ _id=>$job->id },
-
-		{
-			status=>$job->status,
-			content=>$job->serialize
-		}
-			
-
-	);
+        {_id=>$job->id} ,
+        {
+            %$job,
+        }
+    );
 }
 
 sub getJob{
@@ -112,7 +102,7 @@ sub __format{
 
 	@jobs = map {
 
-		Eixo::Queue::Job->unserialize($_->{content});
+		Eixo::Queue::Job->new(%$_);
 
 	} grep { ref($_) } @jobs;
 
