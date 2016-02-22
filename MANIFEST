@@ -11,8 +11,7 @@ lib/Eixo/Queue/SocketPair.pm
 lib/Eixo/Queue/SocketPairDriver.pm
 lib/Eixo/QueueInmediate.pm
 Makefile.PL
-MANIFEST
-README
+MANIFEST			This list of files
 README.pod
 t/001_mongo.t
 t/002_socket_pair.t
