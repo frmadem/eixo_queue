@@ -2,6 +2,7 @@ package Eixo::Queue::Job;
 
 use strict;
 use Eixo::Base::Clase;
+use Eixo::Base::Utf8;
 
 use JSON;
 use Data::UUID;
@@ -22,6 +23,10 @@ sub ID{
 
 	$UUID_INSTANCE->create_str;
 }
+
+my %NO_SERIALIZE = (
+    #id => 1
+);
 
 
 has(
@@ -56,11 +61,33 @@ sub initialize {
     
 }
 
+sub to_utf8_hash{
+
+    my $h =  $_[0]->to_hash;
+
+    Eixo::Base::Utf8::enable_flag($h);
+
+    return $h;
+
+}
+
+sub to_hash {
+
+    return {
+
+        map {
+            $_ => $_[0]->{$_}
+        }
+        grep{
+            !$NO_SERIALIZE{$_}
+        }
+        keys(%{ $_[0] })
+    
+    }
+}
 
 sub TO_JSON {
-    return {
-        %{ $_[0] }
-    }
+    $_[0]->to_hash
 }
 
 sub copy{

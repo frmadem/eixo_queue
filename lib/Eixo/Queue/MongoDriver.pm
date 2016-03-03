@@ -27,9 +27,9 @@ sub addJob{
 
 	}
 
-	$self->getCollection->insert({
+	$self->getCollection->insert_one({
         _id => $job->id,
-        %{$job}
+        %{$job->to_utf8_hash}
     });
 
 }
@@ -39,9 +39,8 @@ sub updateJob{
 
 	$self->getCollection->update(
         {_id=>$job->id} ,
-        {
-            %$job,
-        }
+
+        $job->to_utf8_hash
     );
 }
 
