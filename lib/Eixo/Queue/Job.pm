@@ -2,7 +2,6 @@ package Eixo::Queue::Job;
 
 use strict;
 use Eixo::Base::Clase;
-use Eixo::Base::Utf8;
 
 use JSON;
 use Data::UUID;
@@ -10,18 +9,18 @@ use Data::UUID;
 my $UUID_INSTANCE;
 
 BEGIN{
-	$UUID_INSTANCE = Data::UUID->new;
+    $UUID_INSTANCE = Data::UUID->new;
 }
 
-sub WAITING 	{ 'WAITING' }
-sub PROCESSING	{ 'PROCESSING' }
-sub FINISHED	{ 'FINISHED' }
-sub ERROR	{ 'ERROR' }
+sub WAITING     { 'WAITING' }
+sub PROCESSING    { 'PROCESSING' }
+sub FINISHED    { 'FINISHED' }
+sub ERROR    { 'ERROR' }
 
 
 sub ID{
 
-	$UUID_INSTANCE->create_str;
+    $UUID_INSTANCE->create_str;
 }
 
 my %NO_SERIALIZE = (
@@ -31,21 +30,21 @@ my %NO_SERIALIZE = (
 
 has(
 
-	id=> undef,
+    id=> undef,
 
-	queue=>undef,
+    queue=>undef,
 
-	status=>WAITING,
+    status=>WAITING,
 
-	creation_timestamp=>time,
+    creation_timestamp=>time,
 
-	start_timestamp => undef,
-	
-	termination_timestamp => undef,
+    start_timestamp => undef,
+    
+    termination_timestamp => undef,
 
-	args=>undef,
+    args=>undef,
 
-	results=>undef,
+    results=>undef,
 
 );
 
@@ -59,16 +58,6 @@ sub initialize {
 
     $self->SUPER::initialize(@args);
     
-}
-
-sub to_utf8_hash{
-
-    my $h =  $_[0]->to_hash;
-
-    Eixo::Base::Utf8::enable_flag($h);
-
-    return $h;
-
 }
 
 sub to_hash {
@@ -91,9 +80,9 @@ sub TO_JSON {
 }
 
 sub copy{
-	my ($self, $j) = @_;
+    my ($self, $j) = @_;
 
-	$self->{$_} = $j->{$_} foreach(keys(%$j));
+    $self->{$_} = $j->{$_} foreach(keys(%$j));
 }
 
 sub processing{
@@ -109,31 +98,31 @@ sub finished{
 
 
 sub serialize{
-	my ($self) = @_;
+    my ($self) = @_;
 
-	JSON->new->convert_blessed->encode( $self )
+    JSON->new->convert_blessed->utf8(0)->encode( $self )
 }
 
 sub unserialize{
-	my ($package, $data) = @_;
+    my ($package, $data) = @_;
 
-	if(ref($package)){
-		$package = ref($package);
-	}
+    if(ref($package)){
+        $package = ref($package);
+    }
 
-	bless(JSON->new->decode($data), $package);
+    bless(JSON->new->utf8->decode($data), $package);
 }
 
 sub setArg{
-	my ($self, $key, $value) = @_;
+    my ($self, $key, $value) = @_;
 
-	$self->args->{$key} = $value;
+    $self->args->{$key} = $value;
 }
 
 sub setResult{
-	my ($self, $key, $value) = @_;
+    my ($self, $key, $value) = @_;
 
-	$self->results->{$key} = $value;
+    $self->results->{$key} = $value;
 } 
 
 

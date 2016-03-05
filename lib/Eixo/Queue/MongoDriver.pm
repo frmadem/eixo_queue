@@ -29,7 +29,7 @@ sub addJob{
 
 	$self->getCollection->insert_one({
         _id => $job->id,
-        %{$job->to_utf8_hash}
+        %{$job->to_hash}
     });
 
 }
@@ -40,7 +40,7 @@ sub updateJob{
 	$self->getCollection->update(
         {_id=>$job->id} ,
 
-        $job->to_utf8_hash
+        $job->to_hash
     );
 }
 
