@@ -100,7 +100,7 @@ sub finished{
 sub serialize{
     my ($self) = @_;
 
-    JSON->new->convert_blessed->utf8(0)->encode( $self )
+    JSON->new->convert_blessed->encode( $self )
 }
 
 sub unserialize{
@@ -110,7 +110,7 @@ sub unserialize{
         $package = ref($package);
     }
 
-    bless(JSON->new->utf8->decode($data), $package);
+    bless(JSON->new->decode($data), $package);
 }
 
 sub setArg{
