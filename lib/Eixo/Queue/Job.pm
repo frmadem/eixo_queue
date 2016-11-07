@@ -123,6 +123,12 @@ sub setResult{
     my ($self, $key, $value) = @_;
 
     $self->results->{$key} = $value;
+}
+
+sub removeResult{
+    my ($self, $key) = @_;
+
+    delete($self->results->{$key});
 } 
 
 
