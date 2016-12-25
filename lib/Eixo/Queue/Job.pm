@@ -6,6 +6,8 @@ use Eixo::Base::Clase;
 use JSON;
 use Data::UUID;
 
+use Eixo::Queue::JobCifrador;
+
 my $UUID_INSTANCE;
 
 BEGIN{
@@ -124,7 +126,13 @@ sub setResult{
 
     $self->results->{$key} = $value;
 } 
+sub cifrar :Sig(self, s){
+    Eixo::Queue::JobCifrador->new->cifrar(@_);
+}
 
+sub descifrar :Sig(self, s, s){
+    Eixo::Queue::JobCifrador->new->descifrar(@_);
+}
 
 
 1;
