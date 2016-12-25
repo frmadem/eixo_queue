@@ -13,8 +13,16 @@ has(
 
 	port=>5672,
 
+    __ch => undef,
+
 	__mq=>undef,
 );
+
+sub terminar{
+    $_[0]->__mq->disconnect() if($_[0]->{__mq});
+
+    $_[0]->{__mq} = $_[0]->{__ch} = undef;
+}
 
 sub publicar :Sig(self, s, s, s){
     my ($self, $mensaje, $intercambio, $enrutado) = @_;
@@ -111,7 +119,11 @@ sub mensajeRecibido :Sig(self, s){
 
 sub __abrirCanal{
 
+    return if($_[0]->__ch);
+
     $_[0]->__abrirConexion;
+
+    $_[0]->{__ch} = 1;
 
     $_[0]->__mq->channel_open(1);
         
