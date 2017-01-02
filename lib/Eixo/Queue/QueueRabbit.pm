@@ -39,7 +39,7 @@ sub initialize{
 }
 
 sub add :Sig(self, Eixo::Queue::Job){
-    my ($self, $job, $routing_key) = @_;
+    my ($self, $job, $routing_key, $opciones) = @_;
 
     my $message = $self->__crypJob($job);
 
@@ -51,7 +51,9 @@ sub add :Sig(self, Eixo::Queue::Job){
 
         $self->exchange,
 
-        $routing_key
+        $routing_key,
+
+        $opciones
     );
 }
 
@@ -66,7 +68,11 @@ sub addAndWait :Sig(self, Eixo::Queue::Job, s, CODE){
 
     ) = @_;
 
-    $self->add($job);
+    $self->add($job, undef, {
+
+        mandatory=>1,
+
+    });
 
     $self->wait(
         $routing_key_wait, 
@@ -80,6 +86,7 @@ sub suscribe :Sig(self, CODE){
     my ($self, $callback, $job_class) = @_;
 
     $job_class = $job_class || "Eixo::Queue::Job";
+
 
     $self->__suscribe(
 

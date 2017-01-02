@@ -25,7 +25,7 @@ sub terminar{
 }
 
 sub publicar :Sig(self, s, s, s){
-    my ($self, $mensaje, $intercambio, $enrutado) = @_;
+    my ($self, $mensaje, $intercambio, $enrutado, $opciones, $props) = @_;
 
     $self->__abrirCanal;
 
@@ -40,6 +40,8 @@ sub publicar :Sig(self, s, s, s){
         }
     );
 
+    my $opts;
+
     $self->__mq->publish(
 
         1,
@@ -48,8 +50,11 @@ sub publicar :Sig(self, s, s, s){
 
         $mensaje,
 
-        {
-            exchange=> $intercambio
+        $opts = {
+
+            exchange=> $intercambio,
+
+            %{$opciones || {}}
         },
 
     );
