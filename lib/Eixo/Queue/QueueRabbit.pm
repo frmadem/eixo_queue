@@ -4,8 +4,13 @@ use strict;
 use Eixo::Base::Clase "Eixo::Queue";
 
 use Eixo::Queue::JobCifrador;
+use Eixo::Queue::RabbitDriver;
 
 has(
+
+    host=>undef,
+
+    port=>undef,
 
     driver=>undef,
 
@@ -15,6 +20,23 @@ has(
 
     routing_key=>undef,
 );
+
+sub initialize{
+
+    $_[0]->SUPER::initialize(@_[1..$#_]);
+
+    $_[0]->driver(
+
+        Eixo::Queue::RabbitDriver->new(
+
+            host=>$_[0]->host,
+
+            port=>$_[0]->port
+
+        )
+
+    );
+}
 
 sub add :Sig(self, Eixo::Queue::Job){
     my ($self, $job, $routing_key) = @_;
