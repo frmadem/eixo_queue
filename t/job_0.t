@@ -52,13 +52,19 @@ SKIP: {
 
 		ok($job2->status eq $job2->WAITING, "Job status is ok");
 
-		$job2->finished;
+        $job2->setResult('result_1', 'a');
+        $job2->setResult('result_temp', 'xxxx');
+		$D->updateJob($job2);
 
+        $job2->removeResult('result_temp');
+		$job2->finished;
 		$D->updateJob($job2);
 
 		$job2 = $D->getJob($job->id);
 
 		ok($job2->status eq $job2->FINISHED, "Job status is finished");
+		ok($job2->results->{result_1} eq 'a', "Job result was set correctly");
+		ok(!defined($job2->results->{result_temp}), "Temporaly result not exists at the end");
 		
 	};
 
