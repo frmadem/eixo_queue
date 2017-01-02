@@ -21,9 +21,6 @@ README.pod
 t/001_mongo.t
 t/002_socket_pair.t
 t/003_job_cifrar.t
-t/004_rabbitmq.t
 t/Eixo-Queue.t
 t/job_0.t
 t/test_base.pm
-test/1.pl
-test/1_r.pl
