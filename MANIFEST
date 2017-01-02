@@ -4,9 +4,14 @@ lib/Eixo/Queue.pm
 lib/Eixo/Queue.pod
 lib/Eixo/Queue/Direct.pm
 lib/Eixo/Queue/Job.pm
+lib/Eixo/Queue/JobCifrador.pm
+lib/Eixo/Queue/JobRabbit.pm
 lib/Eixo/Queue/Mongo.pm
 lib/Eixo/Queue/MongoDriver.pm
+lib/Eixo/Queue/QueueRabbit.pm
 lib/Eixo/Queue/Queues.pm
+lib/Eixo/Queue/RabbitDriver.pm
+lib/Eixo/Queue/RabbitMessage.pm
 lib/Eixo/Queue/SocketPair.pm
 lib/Eixo/Queue/SocketPairDriver.pm
 lib/Eixo/QueueInmediate.pm
@@ -15,6 +20,10 @@ MANIFEST			This list of files
 README.pod
 t/001_mongo.t
 t/002_socket_pair.t
+t/003_job_cifrar.t
+t/004_rabbitmq.t
 t/Eixo-Queue.t
 t/job_0.t
 t/test_base.pm
+test/1.pl
+test/1_r.pl
