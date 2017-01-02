@@ -5,7 +5,7 @@ use Eixo::Base::Clase;
 
 use Eixo::Queue::RabbitMessage;
 
-use Net::RabbitMQ;
+use Net::AMQP::RabbitMQ;
 
 has(
 
@@ -133,7 +133,7 @@ sub __abrirConexion{
 
     return if($_[0]->{__mq});
 
-    $_[0]->{__mq} = Net::RabbitMQ->new;
+    $_[0]->{__mq} = Net::AMQP::RabbitMQ->new;
 
     $_[0]->{__mq}->connect(
 
