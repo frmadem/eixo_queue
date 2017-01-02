@@ -111,7 +111,7 @@ sub suscribirse :Sig(self, s, s, CODE){
     
 }
 
-sub mensajeRecibido :Sig(self, s){
+sub mensajeRecibido{ #:Sig(self, s){
     my ($self, $tag) = @_;
 
     $self->__mq->ack(1, $tag);
