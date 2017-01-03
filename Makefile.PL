@@ -27,7 +27,8 @@ WriteMakefile1(
         'JSON' => '2.5',
         'Data::UUID' => '1',
         'MongoDB' => '0.708',
-
+        'Crypt::JWT' => '0.018',
+        'Net::AMQP::RabbitMQ' => '2.3'
     }, # e.g., Module::Name => 1.1
     ABSTRACT_FROM  => 'lib/Eixo/Queue.pod', # retrieve abstract from module
     AUTHOR         =>  ['Francisco Maseda <frmadem@gmail.com>', 'Javier Gomez <alambike@gmail.com>'],
