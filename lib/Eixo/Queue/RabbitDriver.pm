@@ -13,6 +13,12 @@ has(
 
 	port=>5672,
 
+    vhost=>undef,
+
+    user=>undef,
+
+    password=>undef,
+
     __ch => undef,
 
 	__mq=>undef,
@@ -145,7 +151,13 @@ sub __abrirConexion{
         $_[0]->host,
 
         {
-            port=>$_[0]->port
+            port=>$_[0]->port,
+
+            user=>$_[0]->user,
+
+            password=>$_[0]->password,
+
+            vhost=>$_[0]->vhost
         }
 
     )

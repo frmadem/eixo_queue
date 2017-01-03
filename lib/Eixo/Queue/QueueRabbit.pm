@@ -8,9 +8,16 @@ use Eixo::Queue::RabbitDriver;
 
 has(
 
+
     host=>undef,
 
     port=>undef,
+
+    vhost=>undef,
+
+    user=>undef,
+
+    password=>undef,
 
     driver=>undef,
 
@@ -31,8 +38,13 @@ sub initialize{
 
             host=>$_[0]->host,
 
-            port=>$_[0]->port
+            port=>$_[0]->port,
 
+            vhost=>$_[0]->vhost,
+
+            user=>$_[0]->user,
+
+            password=>$_[0]->password
         )
 
     );
