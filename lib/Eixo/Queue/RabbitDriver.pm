@@ -24,6 +24,10 @@ has(
 	__mq=>undef,
 );
 
+sub DESTROY{
+    $_[0]->terminar;
+}
+
 sub terminar{
     $_[0]->__mq->disconnect() if($_[0]->{__mq});
 
