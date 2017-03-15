@@ -29,7 +29,13 @@ sub DESTROY{
 }
 
 sub terminar{
-    $_[0]->__mq->disconnect() if($_[0]->{__mq});
+
+    if($_[0]->{__mq}){
+
+        $_[0]->__mq->channel_close(1) if($_[0]->{__ch});
+
+        $_[0]->__mq->disconnect();
+    }
 
     $_[0]->{__mq} = $_[0]->{__ch} = undef;
 }
