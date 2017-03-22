@@ -24,8 +24,18 @@ has(
 	__mq=>undef,
 );
 
+sub DESTROY{
+    $_[0]->terminar;
+}
+
 sub terminar{
-    $_[0]->__mq->disconnect() if($_[0]->{__mq});
+
+    if($_[0]->{__mq}){
+
+        $_[0]->__mq->channel_close(1) if($_[0]->{__ch});
+
+        $_[0]->__mq->disconnect();
+    }
 
     $_[0]->{__mq} = $_[0]->{__ch} = undef;
 }
@@ -118,8 +128,11 @@ sub suscribirse :Sig(self, s, s, CODE){
 
     $f->();    
 
+    return;
+
     SALIR:
     
+        $self->terminar();
 }
 
 sub mensajeRecibido{ #:Sig(self, s){
@@ -140,6 +153,15 @@ sub __abrirCanal{
         
 }
 
+sub __cerrarCanal{
+
+    return unless($_[0]->__ch);
+
+    $_[0]->__mq->channel_close(1);
+
+    $_[0]->{__ch} = 0;
+}
+
 sub __abrirConexion{
 
     return if($_[0]->{__mq});
@@ -157,11 +179,14 @@ sub __abrirConexion{
 
             password=>$_[0]->password,
 
-            vhost=>$_[0]->vhost
+            vhost=>$_[0]->vhost,
+
+            timeout=>1
         }
 
     )
 }
+
 
 
 1;
