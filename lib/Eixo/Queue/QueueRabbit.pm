@@ -1,10 +1,13 @@
 package Eixo::Queue::QueueRabbit;
 
 use strict;
+use Scalar::Util;
+
 use Eixo::Base::Clase "Eixo::Queue";
 
 use Eixo::Queue::JobCifrador;
 use Eixo::Queue::RabbitDriver;
+
 
 has(
 
@@ -99,6 +102,9 @@ sub suscribe :Sig(self, CODE){
 
     $job_class = $job_class || "Eixo::Queue::Job";
 
+    my $kself = $self;
+
+    weaken($kself);
 
     $self->__suscribe(
 
@@ -107,7 +113,7 @@ sub suscribe :Sig(self, CODE){
         sub {
             my ($message, $next, $end) = @_;
 
-            my $job = $self->__decryptJob(
+            my $job = $kself->__decryptJob(
 
                 $message->cuerpo, 
 
@@ -132,11 +138,15 @@ sub suscribe :Sig(self, CODE){
 sub wait :Sig(self, s, CODE, s){
     my ($self, $routing_key_wait, $callback, $job_class, $timeout) = @_;
 
+    my $kself = $self;
+
+    weaken($kself);
+
     $timeout && eval{
 
         local $SIG{ALRM} = sub {
 
-            $self->driver->terminar();    
+            $kself->driver->terminar();    
 
             $callback->("TIMEOUT");
 
@@ -154,7 +164,7 @@ sub wait :Sig(self, s, CODE, s){
         sub {
             my ($message, $next, $end) = @_;
 
-            my $job = $self->__decryptJob(
+            my $job = $kself->__decryptJob(
 
                 $message->cuerpo, 
 
