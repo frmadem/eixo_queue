@@ -134,16 +134,16 @@ sub wait :Sig(self, s, CODE, s){
 
     $timeout && eval{
 
-        alarm($timeout);
-
-        $SIG{ALRM} = sub {
+        local $SIG{ALRM} = sub {
 
             $self->driver->terminar();    
 
             $callback->("TIMEOUT");
 
-            alarm(0);
+         #   alarm(0);
         };
+
+        alarm($timeout);
 
     };
 
