@@ -118,7 +118,7 @@ sub suscribirse :Sig(self, s, s, CODE){
 
             $self->__mq->heartbeat();
 
-            $rv = $self->__mq->recv(10);
+            $rv = $self->__mq->recv(5000);
 
             if($rv){
  
