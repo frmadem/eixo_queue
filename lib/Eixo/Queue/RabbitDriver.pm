@@ -116,7 +116,7 @@ sub suscribirse :Sig(self, s, s, CODE){
                 die "ERROR: RABBIT_CONNECTION_LOST";
             }
 
-            $rv->heartbeat();
+            $self->__mq->heartbeat();
 
             $rv = $self->__mq->recv(10);
 
