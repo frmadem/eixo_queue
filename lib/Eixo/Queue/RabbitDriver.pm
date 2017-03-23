@@ -107,23 +107,40 @@ sub suscribirse :Sig(self, s, s, CODE){
     $f = sub {
 
         print "Esperando mensaje\n";
+        
+        my $rv;
 
-        my $rv = $self->__mq->recv();
+        REINTENTAR:
+
+            unless($self->__mq->is_connected()){
+                die "ERROR: RABBIT_CONNECTION_LOST";
+            }
+
+            $rv->heartbeat();
+
+            $rv = $self->__mq->recv(10);
+
+            if($rv){
  
-        $callback->(
+                $callback->(
 
-            Eixo::Queue::RabbitMessage->new(
+                    Eixo::Queue::RabbitMessage->new(
 
-                driver=>$self,
+                        driver=>$self,
 
-                message=>$rv
-            ),
+                        message=>$rv
+                    ),
 
-            sub { $f->() },
+                    sub { $f->() },
 
-            sub { goto SALIR }
+                    sub { goto SALIR }
     
-        );   
+                );   
+
+            }
+            else{
+                goto REINTENTAR;
+            }
     };
 
     $f->();    
@@ -181,7 +198,9 @@ sub __abrirConexion{
 
             vhost=>$_[0]->vhost,
 
-            timeout=>1
+            timeout=>1,
+
+            heartbeat=>1
         }
 
     )
