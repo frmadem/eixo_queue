@@ -1,7 +1,7 @@
 package Eixo::Queue::QueueRabbit;
 
 use strict;
-use Scalar::Util;
+use Scalar::Util qw(weaken);
 
 use Eixo::Base::Clase "Eixo::Queue";
 
