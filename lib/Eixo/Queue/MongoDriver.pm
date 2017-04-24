@@ -102,6 +102,33 @@ sub getPendingJob{
 
 }
 
+sub getJobsCron{
+    my ($self, %args) = @_;
+
+    my $query = {
+
+        status => "ACTIVE",
+
+        cron=>1   
+        
+    };
+
+    $query->{queue} = $args{queue} if(defined( $args{queue});
+
+    my @jobs = $self->getCollection
+
+         ->find($query)
+
+         ->all;
+        
+    @jobs = map {
+
+        $args{class}->new(%$_)
+
+    } grep {ref($_) } @jobs;
+
+	wantarray ? @jobs : (@jobs < 2) ? $jobs[0] : \@jobs;
+}
 
 sub __format{
 	my ($self, @jobs) = @_;
