@@ -66,19 +66,23 @@ sub getJob{
 }
 
 sub find{
-    my ($self, $query, $sort) = @_;
+    my ($self, $query, $sort, $collection, $class) = @_;
 
-    $self->__format(
+    my $method = ($class) ? "__formatClass" : "__format";
+
+    $self->$method(
 
         [
-            $self->getCollection
+            $self->getCollection($collection)
         
                 ->find($query)
      
                 ->sort($sort)
 
                 ->all
-        ]
+        ],
+
+        $class
     );
 }
 
