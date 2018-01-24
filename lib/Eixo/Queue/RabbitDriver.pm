@@ -54,7 +54,8 @@ sub publicar :Sig(self, s, s, s){
         {
             durable=>1,
         }
-    );
+
+    ) if($intercambio);
 
     my $opts;
 
@@ -192,18 +193,19 @@ sub __abrirConexion{
         {
             port=>$_[0]->port,
 
-            user=>$_[0]->user,
+            user=>$_[0]->user || "guest",
 
-            password=>$_[0]->password,
+            password=>$_[0]->password || "guest",
 
-            vhost=>$_[0]->vhost,
+            vhost=>$_[0]->vhost || "/",
 
             timeout=>1,
 
             heartbeat=>1
         }
 
-    )
+    );
+
 }
 
 
